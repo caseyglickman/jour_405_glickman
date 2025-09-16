@@ -1,7 +1,7 @@
 ---
 title: "HW2 Prince George's County Crime"
 ---
-
+Casey Glickman
 In this assignment, we will be working with a dataset reporting the number of crimes by month in Prince George's County, Maryland, for every month in 2024. 
 
 ### Task 1: Load the Tidyverse
@@ -9,7 +9,7 @@ In this assignment, we will be working with a dataset reporting the number of cr
 You will need to load the tidyverse library
 
 ```{r}
-
+library(tidyverse)
 ```
 
 Then you'll load the data from the web. The URL for the data is: https://raw.githubusercontent.com/dwillis/jour405/refs/heads/main/data/pg_crime_totals_2024.csv. You will create a dataframe called `pg_crime` that contains the data from this URL.
@@ -17,18 +17,22 @@ Then you'll load the data from the web. The URL for the data is: https://raw.git
 ### Task 2: Load the Data and Describe It
 
 ```{r}
+pg_crime <- read_csv("https://raw.githubusercontent.com/dwillis/jour405/refs/heads/main/data/pg_crime_totals_2024.csv") 
 ```
 ### Task 3: Describe the Data
 
 You should examine that dataframe carefully by clicking on it in the Environment tab in RStudio. Write a couple of sentences describing the categories of incidents. From a reporting standpoint, are any of the categories more important than others? Why or why not? Do any of them make the job of summarizing the data more difficult? Why or why not?
 
 ANSWER HERE
-
+The incidents are categorized into different types of crime like assault, auto crimes, breaking and entering, robbery and more violent crimes like homicide and sex offenses. From a reporting standpoint more violent crimes are definitely more important to report on, as well as any general trends over the year. For instance, "assault shooting" increased significantly from january to the following December which could be an interesting story to report on. Some categories that are vauge make summarizing the data difficult. For example it would be hard to summarize the robbery data since there is such a large "robbery other" category and it is unclear what type of robbery would fall under that category.
 ### Task 4: Calculating Averages
 
 Calculate the total number of incidents per month for each category using `mutate()`, calling the new column `total_incidents`. Then calculate the average number of incidents per month for each category of crime, calling the new column `average_incidents`. Assign the result to a new dataframe called `pg_crime_averages`.
 
 ```{r}
+pg_crime_averages <- pg_crime |>
+mutate(total_incidents = rowSums(across(2:13)))|>
+mutate(average_incidents = total_incidents/12)
 
 ```
 
@@ -36,7 +40,7 @@ Calculate the total number of incidents per month for each category using `mutat
 
 Examine the new dataframe, `pg_crime_averages`, by clicking on it in the Environment tab in RStudio. Write a couple of sentences describing the average number of incidents per month for each category. Which categories have the highest average number of incidents per month? Which have the lowest? What does this tell you about the pattern of crime in Prince George's County? Are there categories that you have questions about? Why or why not?
 
-ANSWER HERE
+After examining the pg_crime_averages, we can see that accidents has the highest average number of incidents per month with theft from auto stolen and theft from auto both at a close second. Homicides was the category with the lowest average number of incidents per month. This data helps to show us which areas of crime are a consistent problem for PG county throughout the year. The average number of incidents per month for robbery residential was N/A because some of the months are missing data reports, so I would like to know what the average is for this category.
 
 
 ### Task 6: Testing a Theory
@@ -44,19 +48,26 @@ ANSWER HERE
 One theory about crime is that it is more likely to occur in the summer months. Test this theory by creating three new columns using `mutate()` that calculate the percentage change compared to the average for each category of crime for the months of June, July, and August. Call the new columns `june_change`, `july_change`, and `august_change`. Assign the result to a new dataframe called `summer_crime_averages`.
 
 ```{r}
+
+summer_crime_averages <- pg_crime_averages|> 
+  mutate(
+    june_change = ((Jun - average_incidents) / average_incidents) * 100, 
+    july_change = ((Jul - average_incidents) / average_incidents) * 100, 
+    august_change = ((Aug - average_incidents) / average_incidents) * 100
+)
 ```
 
 ### Task 7: Describe the Summer Crime Averages
 
 Look at the `summer_crime_averages` dataframe by clicking on it in the Environment tab in RStudio. Write a couple of sentences describing the percentage change in the average number of incidents per month for each category of crime for the months of June, July, and August. Do you see any patterns? What does this tell you about the theory that crime is more likely to occur in the summer months?
 
-ANSWER HERE
+Compared to the other summer months, June had the highest number of incident categories that had higher averages than the yearly average. In the category auto stolen, the average number of incidents went up for all the summer months. Homicide rates also went up consistently for all the summer months. Breaking and entering other as well as thefts were both categories where the average number of incidents went down during the summer months. Overall there is not much consistency to confirm the theory that crime is more likely to occur in the summer months. 
 
 ### Task 8: What's the Story?
 
 Write up a lede and nutgraf of a story focused on the crime data in Prince George's County. It could be from any of the dataframes you've created in this assignment. The lede should be a single sentence that summarizes the most important information in the data. The nutgraf should be a paragraph that provides more context and explains why the data is important.
 
-ANSWER HERE
+Assault shootings in Prince Georges County skyrocket from January to the following December according to the Prince Georges County crime report. Just five assault shootings were reported in the county in January, however throughout the year that number climbed, reaching a total of 20 reported incidents in December, showing an increase of 300%.
 
 ### Task 9: Save Your Work and Put it on GitHub
 
