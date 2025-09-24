@@ -7,7 +7,7 @@ date: 09-23-2025
 This workbook contains three exercises for our class. Complete them and hand it in at the end of class via a GitHub link.
 
 Your name:
-**Answer**
+Casey Glickman
 
 #------------------------------------------------------------------------------#
 
@@ -20,8 +20,9 @@ First, come up with two examples of data that might not be normally distributed 
 
 Then, how should a reporter working on a story about data that isn't normally distributed describe that data? Which statistical measures that we've covered in class should they use or avoid when doing so? Use the examples you came up with, and you should discuss your answers together, but each student submits separately.
 
-**Your answer**:
+If you were to collect data about social media usage across all age groups, the data would likely not have a normal distribution and would be skewed towards younger people. Another example could be collecting data on college campuses about what percentage of students are commuters. If you were to collect that data at a state university like UMD, the data would likely be skewed towards computer students, versus if you were at a private university. 
 
+As a reporter, when reporting on a story about data that isn't normally distributed, it is important to be explicit about where you collected the data and always mention the margin of error. It is also important to discuss outliers in the data and use median instead of mean in your statistical calculations to avoid the outliers skewing the data.
 
 
 #------------------------------------------------------------------------------#
@@ -64,7 +65,7 @@ team_aces |> mutate(percentile = ntile(total_aces, 100))
 
 Write a couple of sentences that puts Maryland into context with the other teams in the dataset. You can do some Internet research to help with this.
 
-**Answer**:
+Maryland is in the 95th percentile along with Creighton and Merrimack which means that they are in the top 5% of volleyball performers. Maryland is performing better than 95% of teams and is perfmoing worse than just 5% of teams. They also have 223 total aces which puts them in the top 20 teams with the highest total aces.  
 
 
 #------------------------------------------------------------------------------#
@@ -76,7 +77,7 @@ Follow along with the demo to learn how to calculate standard deviation and how 
 ### Task 1: Load the tidyverse
 
 ```{r}
-
+library(tidyverse)
 ```
 
 
@@ -122,7 +123,8 @@ car_thefts |>
 Is the distribution normal or skewed in one direction? Write a sentence in which you describe the range of the data covered by one standard deviation from the mean on both sides - how much of the data falls in that range?
 
 
-**Answer**:
+The data is skewed to the left because the mode is higher than the mean and the data has a tail extending to the left which means we know the data is skewed left 
+
 
 
 
