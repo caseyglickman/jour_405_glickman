@@ -27,10 +27,10 @@ Calculate violent and property crime rates for each city for both years using `m
 
 ```{r}
 md_cities_rates <- md_cities |>
-mutate(violent_rate_2019 = violent2019/pop2019 * 1000,
-property_rate_2019 = property2019/pop2019 * 1000,
-violent_rate_2020 = violent2020/pop2020 * 1000,
-property_rate_2020 = property2020/pop2020 * 1000)
+mutate(violent_rate_2019 = violent2019/pop2019 * 10000,
+property_rate_2019 = property2019/pop2019 * 10000,
+violent_rate_2020 = violent2020/pop2020 * 10000,
+property_rate_2020 = property2020/pop2020 * 10000)
 ```
 
 ### Task 4: Describe the Rates
@@ -69,3 +69,19 @@ Violent crime rates in the city nearly doubled from 2019 to 2020 jumping from 91
 ### Task 9: Save Your Work and Put it on GitHub
 
 Save this notebook, then commit it to your local repository. Push the changes to your GitHub repository and submit the URL for this file in ELMS.
+
+### Task 10
+```{r}
+md_cities_percentiles <- md_cities_rates |>
+mutate(percentile = ntile(violent_rate_2020, 100))
+```
+How many cities are above the 90th percentile?
+Including the 90th percentile, there are 11 cities
+
+```{r}
+md_cities_rates |> 
+    summarize(IQR_violent_rate = IQR(violent_rate_2020))
+              
+```
+Do the results change your best story idea from the previous assignment? Why or why not?
+Because the IQR is 41 we know that there is a wide spread of data for violent crime in 2020 across Maryland. Cities like Ocean City have much higher crime rates in comparison to smaller cities like Barclay that had violent crime rate of 0% for 2020. This wouldn't change my original story idea since I was choosing to focus on Ocean City but it is important to consider when making any broad statements about Maryland violent crime as a whole
