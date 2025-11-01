@@ -4,7 +4,7 @@ author: "Derek Willis/Rob Wells"
 date: 10-27-2025
 ---
 
-name:Casey Glickman
+name: REPLACE WITH YOUR NAME
 
 
 Your editor wants to know if there have been recent changes in the number of car thefts in Prince George's County. Using monthly figures and significance testing, you'll come up with an answer and decide whether there's a story here. As with the previous homework, provide answers in this notebook when prompted and you will have to fill in values where you see REPLACE_ME. Get started by loading the tidyverse in a new R block.
@@ -57,8 +57,7 @@ ggplot(aes(x = month, y = total)) +
 
 **Q3:** What's your initial reaction to the change in car thefts? Is there a trend?
 
-** 
-**
+**WRITE ANSWERS HERE:**
 
 
 ### Task 4: Add the mean, standard error and calculate a margin of error based on a 95% confidence interval
