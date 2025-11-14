@@ -1,11 +1,45 @@
 ---
-title: "final_project.Rmd"
+title: "final project 1"
 output: html_document
 date: "2025-11-12"
+Casey Glickman
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+tuition <- read_csv("https://raw.githubusercontent.com/wellsdata/Jour405_student_repo_fall_2025/refs/heads/main/project/college_scorecard_2021_2024.csv")
+```
+
+###: Analysis questions
+What does it contain and what time period does it cover?
+This data contains tuition rates from colleges in Maryland and Virginia. It includes instate and out of state tuition rates as well as undergraduate student enrollment. The data starts at the 2021-2022 academic year and covers all the way through the 2023-24 year
+
+Which columns will be most important for your analysis?
+For my analysis I will be focusing on recent out of state tuition rates to see how these fees vary among different colleges. The "2023-24 tuition fee in" and the "institution" columns will be the most important for my analysis. I also want to focus my analysis on how enrollment affects tuition rates to see if schools with larger enrollments tend to have higher tuition or if the opposite is true. For this analysis I will focus on the "2023-24 tuition fee" columns and the "2023-24 undergrad enrollment." 
+
+What's missing that you might need or want?
+This data does not include changes in inflation. It would be interesting to see if tuition rates are increasing to keep up with inflation or if rates are falling behind inflation or increasing at a faster rate. For this analysis I would also want to know if the institution list includes every college in the state of Maryland and Virginia and how these schools break down in terms of public universities, private colleges and community colleges. 
+
+```{r}
+ tuition |> summarize(mean = mean(`2023_24_tuitionfee_in`), median = median(`2023_24_tuitionfee_in`), sd = sd(`2023_24_tuitionfee_in`), min(`2023_24_tuitionfee_in`), max(`2023_24_tuitionfee_in`))
+```
+### Analysis questions 
+Next, propose a newsworthy hypothesis (or several of them) for your dataset. You'll be looking to find (or eliminate possible story ideas) using the techniques you've learned in this class. You'll start that effort this week by coming up with some theories or questions that you're interested in exploring that can be answered with the data set you selected
+
+Newsworthy hypotheses
+1. Maryland community colleges have cheaper in state tuition rates compared to Virginia's community college in state tuition
+2. Tuition rates have increased in Maryland and Virginia over the past three years
+3. As tuition rates increase across colleges, enrollment rates decrease 
+4. Colleges with smaller enrollments have higher tuition rates
+
+What questions do you have about it or need help answering?
+I need help figuring out how to navigate colleges that don't have tuition rates listed. Many colleges with low enrollment have N/A listed for their tution rates, so I will need to figure out how to work around the gaps in this data 
 
 
