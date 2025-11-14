@@ -14,7 +14,7 @@ library(tidyverse)
 ```
 
 ```{r}
-tuition <- read_csv("https://raw.githubusercontent.com/wellsdata/Jour405_student_repo_fall_2025/refs/heads/main/project/college_scorecard_2021_2024.csv")
+tuition_data <- read_csv("https://raw.githubusercontent.com/wellsdata/Jour405_student_repo_fall_2025/refs/heads/main/project/college_scorecard_2021_2024.csv")
 ```
 
 ###: Analysis questions
@@ -28,7 +28,14 @@ What's missing that you might need or want?
 This data does not include changes in inflation. It would be interesting to see if tuition rates are increasing to keep up with inflation or if rates are falling behind inflation or increasing at a faster rate. For this analysis I would also want to know if the institution list includes every college in the state of Maryland and Virginia and how these schools break down in terms of public universities, private colleges and community colleges. 
 
 ```{r}
- tuition |> summarize(mean = mean(`2023_24_tuitionfee_in`), median = median(`2023_24_tuitionfee_in`), sd = sd(`2023_24_tuitionfee_in`), min(`2023_24_tuitionfee_in`), max(`2023_24_tuitionfee_in`))
+tuition_data |>
+  summarize(
+    mean = mean(`2023_24_tuitionfee_in`, na.rm = TRUE),
+    median = median(`2023_24_tuitionfee_in`, na.rm = TRUE),
+    sd = sd(`2023_24_tuitionfee_in`, na.rm = TRUE),
+    min = min(`2023_24_tuitionfee_in`, na.rm = TRUE),
+    max = max(`2023_24_tuitionfee_in`, na.rm = TRUE)
+  )
 ```
 ### Analysis questions 
 Next, propose a newsworthy hypothesis (or several of them) for your dataset. You'll be looking to find (or eliminate possible story ideas) using the techniques you've learned in this class. You'll start that effort this week by coming up with some theories or questions that you're interested in exploring that can be answered with the data set you selected
