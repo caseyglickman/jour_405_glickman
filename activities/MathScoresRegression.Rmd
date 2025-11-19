@@ -39,7 +39,7 @@ schools |>
 
 The scatterplot shows the overall trend of the relationship between the FARMS percentage and the math test scores. The red line represents the linear regression line, which helps us understand the average relationship between the two variables. Based on what you see here, what's the relationship between FARMS percentage and math test scores?
 
-**WRITE YOUR ANSWER HERE**
+**As FARMS percentage increases, the percent of students that have met or exceeded math expectations slightly increases. However, overall there is a weak positive correlation**
 
 
 ### Task: Linear Regression Model (3 points)
@@ -58,7 +58,7 @@ In the middle, you can see the (Intercept) is 59.57897 and the FARMS coefficient
 
 Based on what you've learned so far, is this model worth using? What does it tell us about the nature of the relationship between FARMS percentage and math scores?
 
-**WRITE ANSWER HERE**
+**This model is not worth using. The p-value is .1125 which is greater that .05, so it is insignificant. The Adjusted R-squared value is 0.0254 which is far from 100 and therefore also insignificant. This tells us that there is not a significant relationship between FARMS percentage and math scores**
 
 ### Task: Identifying Schools with Biggest Residuals (2 points)
 
@@ -83,10 +83,10 @@ schools <- schools |>
 ```
 The schools with the biggest positive residuals are performing better than expected, while the schools with the biggest negative residuals are performing worse than expected, based on their FARMS percentage. Look at the absolute values of the residuals; what are the largest differences between the predicted result and the actual math scores?
 
-**WRITE YOUR ANSWER HERE**
+**The largest differences between the predicted result and the actual math scores is 34.9 at Whitemarsh elementary school, 31.4 at Gulph and 31.1 at Crooked Billet. Since these schools have a high residual there is a lot of variance between the predicted result and the actual result.**
 
 ## Task: Evaluate the model (3 points)
 
 A school board member has said at a meeting that elementary schools with fewer students on free and reduced price meals do better on standardized math tests. Describe what conclusions you'd draw from this model's results and how it would influence a story pitch about the school board member and math scores.
 
-**WRITE YOUR ANSWER HERE**
+**From this model we have come to the conclusion that there is a weak positive correlation between students on free and reduced lunches and their ability to do better on standardized math tests. Since the p-value is .1125 and the adjusted R-squared value is 0.0254, we know that these results are not significant. With this insignificant weak positive correlation we can not make the assumption that elementary schools with fewer students on free and reduced price meals do better on standardized math tests and our story should reflect that**
