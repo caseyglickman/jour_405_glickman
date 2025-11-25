@@ -14,15 +14,16 @@ library(tidyverse)
 ```
 
 ```{r}
+# Read the data
 tuition_data <- read_csv("https://raw.githubusercontent.com/wellsdata/Jour405_student_repo_fall_2025/refs/heads/main/project/college_scorecard_2021_2024.csv")
 ```
 
 ###: Analysis questions
 What does it contain and what time period does it cover?
-This data contains tuition rates from colleges in Maryland and Virginia. It includes instate and out of state tuition rates as well as undergraduate student enrollment. The data starts at the 2021-2022 academic year and covers all the way through the 2023-24 year
+This data contains tuition rates from colleges in Maryland and Virginia. It includes in state and out of state tuition rates as well as undergraduate student enrollment. The data starts at the 2021-2022 academic year and covers all the way through the 2023-24 year
 
 Which columns will be most important for your analysis?
-For my analysis I will be focusing on recent out of state tuition rates to see how these fees vary among different colleges. The "2023-24 tuition fee in" and the "institution" columns will be the most important for my analysis. I also want to focus my analysis on how enrollment affects tuition rates to see if schools with larger enrollments tend to have higher tuition or if the opposite is true. For this analysis I will focus on the "2023-24 tuition fee" columns and the "2023-24 undergrad enrollment." 
+For my analysis I will be focusing on recent in state tuition rates to see, on average how these fees vary depending on that state. The "2023-24 tuition fee in" and the "state" columns will be the most important for my analysis so I can compare the average tuition for in state students in Maryland and Virginia.  
 
 What's missing that you might need or want?
 This data does not include changes in inflation. It would be interesting to see if tuition rates are increasing to keep up with inflation or if rates are falling behind inflation or increasing at a faster rate. For this analysis I would also want to know if the institution list includes every college in the state of Maryland and Virginia and how these schools break down in terms of public universities, private colleges and community colleges. 
@@ -30,10 +31,15 @@ This data does not include changes in inflation. It would be interesting to see 
 ```{r}
 tuition_data |>
   summarize(
+    #average 2023-2024 tuition for in state students
     mean = mean(`2023_24_tuitionfee_in`, na.rm = TRUE),
+    #median 2023-2024 tuition for in state students
     median = median(`2023_24_tuitionfee_in`, na.rm = TRUE),
+    #standard deviation for in state 2023-2024 tuition 
     sd = sd(`2023_24_tuitionfee_in`, na.rm = TRUE),
+    #lowest tuition for in state 
     min = min(`2023_24_tuitionfee_in`, na.rm = TRUE),
+    #highest tuition for in state
     max = max(`2023_24_tuitionfee_in`, na.rm = TRUE)
   )
 ```
@@ -46,7 +52,49 @@ Newsworthy hypotheses
 3. As tuition rates increase across colleges, enrollment rates decrease 
 4. Colleges with smaller enrollments have higher tuition rates
 
+Null hypothesis: There is no statically significant difference in average 2023-24 in state tuition for colleges in Maryland versus colleges in Virginia 
+Alternate hypothesis: There is a statistically significant difference in average 2023–24 in-state tuition between colleges in Maryland and Virginia.
+
 What questions do you have about it or need help answering?
-I need help figuring out how to navigate colleges that don't have tuition rates listed. Many colleges with low enrollment have N/A listed for their tution rates, so I will need to figure out how to work around the gaps in this data 
+I need help figuring out how to navigate colleges that don't have tuition rates listed. Many colleges with low enrollment have N/A listed for their tuition rates, so I will need to figure out how to work around the gaps in this data 
 
 
+```{r period-means}
+# Categorize data to show average 2023-24 in state tuition in Maryland and Virginia  
+period_rates <- tuition_data |>
+  group_by(state) |>
+  summarize(
+    mean_rate = mean(`2023_24_tuitionfee_out`, na.rm = TRUE),
+    se = sd(`2023_24_tuitionfee_out`, na.rm = TRUE) / sqrt(n()),
+    .groups = "drop"
+  ) |>
+  mutate(
+    lower_ci = mean_rate - qt(0.975, n() - 1) * se,
+    upper_ci = mean_rate + qt(0.975, n() - 1) * se
+  )
+
+# Create a bar chart to visualize the difference in average tuition rates by state
+ggplot(period_rates, aes(x = state, y = mean_rate, fill = state)) +
+  geom_bar(stat = "identity") +
+  geom_errorbar(aes(ymin = lower_ci, ymax = upper_ci), width = 0.2) + scale_y_continuous(limits = c(0, 40000)) +
+  labs(title = "Maryland and Virginia 2023-2024 In State College Tuition",
+       x = "State", y = "Mean 2023-2024 in state tuition ") 
+```
+
+
+```{r anova-test}
+# Run one-way ANOVA
+anova_result <- aov(`2023_24_tuitionfee_in` ~ state, data = tuition_data)
+summary(anova_result)
+```
+```{r}
+
+# Perform t-test comparing Maryland and Virgina
+t_test_periods <- t.test(  `2023_24_tuitionfee_in` ~ state, data = tuition_data)
+
+# Display results
+t_test_periods
+```
+
+### Interperting the Results 
+In the ANOVA test we found that the p-value was .945. Since this value is larger than .05 we know that the difference in the average tuition rates is likely due to random chance and we therefore fail to reject the null hypothesis. In the t-test the p-value was .951 which again is very large and means we fail to reject the null hypothesis. The test statistic is used to determine if the difference between the mean of two groups is statistically significant or due to random chance. A larger t-statistic means the difference is more likely to be real and not just due to random chance. However, the two sample t-test found that the t-statistic was .061 which is very small and indicates that the difference between the means is insignificant. Overall, these statistical tests can tell us that there is no statically significant difference in the average 2023-24 in state tuition rates between Maryland and Virginia Therefore we have to accept the null hypothesis and reject the alternate hypothesis. 
