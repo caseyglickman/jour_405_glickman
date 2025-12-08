@@ -27,7 +27,7 @@ head(md_turnout)
 
 Before building our model, let's explore the data to understand the variables and their relationships. Examine the correlation matrix to see how the independent variables relate to each other and to the dependent variable (voter turnout). Which variables seem to be correlated? Are there any that are not correlated at all? Also look at the multiple scatterplots. Which variables seem to have a linear relationship with the dependent variable? Which do not?
 
-ANSWER HERE
+There seems to be a correlation between counties voter turnout and the percent of unemployment. Counties with the highest voter turnout have a lower percentage of people that are unemployed, and counties with the lowest voter turnout have a higher unemployment percentage. Between the independent variables there is also a correlation between income and the percent of people with a bachelors. Counties with the highest also have a higher percentage of people with a bachelors degree. Population as an independent variable does not seem to be correlated to voter turnout. Looking at the scatter plot, the percent of people unemployed has has the most clear linear relationship to voter turnout. The percent of the population that is white also seems to have a linear relationship with voter turnout. Population and income don't have a linear relationship. 
 
 
 ```{r}
@@ -90,7 +90,7 @@ The coefficients tell us the estimated effect of each independent variable on th
 
 Examine the output of the model, checking the coefficients, residuals, and overall model fit. How well does this multiple variable model predict turnout? Do any of the variables seem to be insignificant? Is this a useful model, based on what you've seen? Why?
 
-ANSWER HERE
+The median residual is .000494 which is very small and tells us that the difference between the actual and predicted values are small, therefore the model is centered around the actual data points. The model predicts a high negative correlation between unemployment and voter turnout with a coefficient of -1.768e+00. The model also predicts a positive correlation between percentage of white people and voter turnout which we can see because the coefficient is 1.041e-01. Overall, the variables that are the least significant seem to be population and income because both of these variables have very small coefficients. Overall I would say the model is useful. We can further see this because the adjusted R-squared value is 0.8023, which is close to 1 meaning that the model is a good fit for the data. The model is also statistically significant because the f statistic is large and the p-value is very small. 
 
 ```{r}
 # Build initial model with all predictors
@@ -104,19 +104,19 @@ summary(initial_model)
 
 Create three alternative models by adding or removing variables to see if we can improve the model's performance. Turnout will always be the dependent variable, but you should alter the independent variables by removing or adding some. Then compare the models using adjusted R-squared values. Are any of the models significantly better than the others?
 
-ANSWER HERE
+Model 2 looks at unemployment and the percent of white people and their effect on voter turnout. This model has a higher  adjusted R-squared value compared to the other two models and is therefore more significant. Model 3 looks at the effect of bachelors degree and age - this model has the lowest adjusted r-squared meaning it is not as significant and the linear relationship between those variables and voter turnout is not as strong.
 
 ```{r}
 # Model 2
-model2 <- lm(turnout ~ REPLACE ME, data = md_turnout)
+model2 <- lm(turnout ~ pct_unemployed + pct_white, data = md_turnout)
 summary(model2)
 
 # Model 3
-model3 <- lm(turnout ~ REPLACE ME, data = md_turnout)
+model3 <- lm(turnout ~  pct_bachelors_higher + median_age, data = md_turnout)
 summary(model3)
 
 # Model 4
-model4 <- lm(turnout ~ REPLACE ME, data = md_turnout)
+model4 <- lm(turnout ~ population + income, data = md_turnout)
 summary(model4)
 
 # Compare models
@@ -145,4 +145,4 @@ ggplot(model_comparison, aes(x = reorder(Model, Adjusted_R_squared), y = Adjuste
 
 Without using the words "multiple regression model", describe how you could use this analysis to cover an election or voter participation story.
 
-ANSWER HERE
+I would use this analysis to discuss the effect of a counties unemployment rate on voter turnout. Unemployment rates have a strong negative correlation to voter turnout that is statically significant. In covering a state-wide election, like the governors race we could examine how counties with higher unemployment rates likely had lower voter turnout and what factors might be at play like a lack of civic engagement or a lack of time and resources that are effecting peoples ability to vote. We could talk to residents who are unemployed about why the chose to vote or not and what barriers the are facing that might prevent them from voting. 
